@@ -1,0 +1,8 @@
+GET https://www.hao123.com/ HTTP/1.1
+
+###
+GET https://www.jianshu.com/p/4ad2d400cf92?from=groupmessage HTTP/1.1
+
+###
+@baseurl =https://www.hao123.com/
+GET {{baseurl}} HTTP/1.1

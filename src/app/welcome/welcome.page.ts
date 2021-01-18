@@ -1,3 +1,4 @@
+import { SocketService } from "./../socket.service";
 /**
  * 闪屏界面 处理第一屏幕操作逻辑
  */
@@ -19,7 +20,11 @@ export class WelcomePage implements OnInit {
   interval: any;
   i = 0;
 
-  constructor(private geolocation: Geolocation, private nav: NavController) {}
+  constructor(
+    private geolocation: Geolocation,
+    private nav: NavController,
+    private socketService: SocketService
+  ) {}
 
   ngOnInit() {
     this.interval = setInterval(() => {
@@ -33,9 +38,20 @@ export class WelcomePage implements OnInit {
 
   openLogin() {
     clearInterval(this.interval);
+    this.socketService.getmessage("qwer").subscribe(
+      res => {
+        console.log("res");
+        console.log(res);
+      },
+      err => {
+        console.log("err");
+        console.log(err);
+      }
+    );
+
     //this.getGeolocation();
     //this.nav.navigateRoot('/home');
-    this.nav.navigateRoot("/tasklist");
+    //this.nav.navigateRoot("/tasklist");
   }
 
   getGeolocation() {
