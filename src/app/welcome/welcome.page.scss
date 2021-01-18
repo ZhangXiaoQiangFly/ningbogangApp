@@ -1,0 +1,59 @@
+.welcome{
+  h3{
+    padding-top: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color:#58b3f7;
+    text-align: center;
+  }
+
+  .img-wrap{
+    width:94%;
+    height:25rem;
+    margin:0 auto;
+
+    .flash-img{
+      display: block;
+      width:100%;
+    }
+  }
+
+
+  dl {
+    display: block;
+    width: 12.8rem;
+    margin: 0.5rem auto 1rem;
+    overflow: hidden;
+    dt{
+      float:left;
+      width:3rem;
+      height:3rem;
+      img{
+        width:100%;
+        height:100%;
+      }
+    }
+
+    dd{
+      margin-bottom: 0.5rem;
+      font-size: 0.8rem;
+      color:#3d3d3d;
+      text-align: center;
+    }
+
+  }
+
+  .jump{
+    position: absolute;
+    right:0;
+    bottom: 1rem;
+    padding:0.5rem;
+    margin-right: 8%;
+    border-radius: 0.3rem;
+    font-size: 1rem;
+    color:#fff;
+    outline:none;
+    background: #ccc;
+  }
+
+}
