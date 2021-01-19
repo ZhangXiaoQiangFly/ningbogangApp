@@ -6,6 +6,10 @@ import { Component, OnInit } from "@angular/core";
 import { NavController } from "@ionic/angular";
 import { HttpClient } from "@angular/common/http";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
+import { interval } from "rxjs";
+import { map } from "rxjs/operators";
+import { Observable } from "rxjs";
+import { Network } from "@ionic-native/network/ngx";
 
 @Component({
   selector: "app-welcome",
@@ -19,6 +23,9 @@ export class WelcomePage implements OnInit {
   data1: any;
   interval: any;
   i = 0;
+  connect: any;
+
+  countDown$: Observable<any>;
 
   constructor(
     private geolocation: Geolocation,
@@ -34,6 +41,8 @@ export class WelcomePage implements OnInit {
         //this.nav.navigateRoot('/home');
       }
     }, 1000);
+
+   
   }
 
   openLogin() {
@@ -51,7 +60,7 @@ export class WelcomePage implements OnInit {
 
     //this.getGeolocation();
     //this.nav.navigateRoot('/home');
-    //this.nav.navigateRoot("/tasklist");
+    this.nav.navigateRoot("/tasklist");
   }
 
   getGeolocation() {

@@ -12,17 +12,26 @@ import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { SocketService } from "./socket.service";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { ParamInterceptor } from "./param.interceptor";
+import { Network } from "@ionic-native/network/ngx";
+import { HeadsettingModule } from "./module/headsetting/headsetting.module";
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,HttpClientModule],
+  imports: [
+    BrowserModule,
+    HeadsettingModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    HttpClientModule,
+  ],
   providers: [
     SocketService,
     StatusBar,
     SplashScreen,
     Geolocation,
-    //配置拦截器   
+    Network,
+    //配置拦截器
     { provide: HTTP_INTERCEPTORS, useClass: ParamInterceptor, multi: true },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],

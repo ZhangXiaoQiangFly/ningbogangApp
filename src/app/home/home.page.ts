@@ -9,7 +9,7 @@ import { AlertController } from "@ionic/angular";
 import { Router } from "@angular/router";
 import * as smartmapx from "@smx/api";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
-
+import { SocketService } from "./../socket.service";
 declare let cordova: any;
 
 @Component({
@@ -50,7 +50,8 @@ export class HomePage implements OnInit, OnDestroy {
     private alertController: AlertController,
     private nav: NavController,
     private router: Router,
-    private platform: Platform
+    private platform: Platform,
+    private socketService: SocketService
   ) {
     this.backButtonEvent();
   }

@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { IonInfiniteScroll, NavController } from "@ionic/angular";
+import { SocketService } from "./../socket.service";
 @Component({
   selector: "app-task-list",
   templateUrl: "./task-list.page.html",
@@ -7,10 +8,13 @@ import { IonInfiniteScroll, NavController } from "@ionic/angular";
 })
 export class TaskListPage implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
-  constructor(private nav: NavController) {}
+  constructor(
+    private nav: NavController,
+    private socketService: SocketService
+  ) {}
 
   ngOnInit() {}
-  
+
   loadData(event) {
     setTimeout(() => {
       console.log("Done");

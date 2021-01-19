@@ -1,8 +1,9 @@
+<app-headsetting class="headsetting"></app-headsetting>
 <ion-content>
   <!--  <ion-button (click)="toggleInfiniteScroll()" expand="block">
     Toggle Infinite Scroll
   </ion-button> -->
-
+  
   <ion-list>
     <ion-item (click)="handclick($event)"> 
       <ion-label >Pokémon Yellow</ion-label>
@@ -20,7 +21,7 @@
       <ion-label>Super Mario World</ion-label>
     </ion-item>
   </ion-list>
-
+  
   <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
     </ion-infinite-scroll-content>
