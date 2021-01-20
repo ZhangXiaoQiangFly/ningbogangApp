@@ -1,26 +1,22 @@
-<ion-header>
+<div>
+  <img style="width: 100%;" src="../../assets/image/backgroud.png">
   <ion-icon class="back" (click)="back()" name="chevron-back-outline"></ion-icon>
-  <ion-img src="../../assets/image/backgroud.png">
-  </ion-img>
-</ion-header>
+  <div class="setting-content">
+    <ion-toolbar>
+      <ion-row>
+        <ion-text style="left: 3rem; position: relative;">
+          用户名:
+        </ion-text>
+        <ion-text style="left: 6rem; position: relative;">
+          cool
+        </ion-text>
+      </ion-row>
+    </ion-toolbar>
 
-<div class="setting-content">
-  <ion-toolbar>
-    <ion-row>
-      <ion-col style=" text-align: center;" size="3">
-        用户名:
-      </ion-col>
-      <ion-col>
-        ion-col
-      </ion-col>
-    </ion-row>
-  </ion-toolbar>
-
-  <ion-toolbar style="top:10px">
-    <ion-row>
-      <ion-col style=" text-align: center; ">
+    <ion-toolbar style="top:10px ;">
+      <ion-text style="left: 3rem; position: relative;">
         路况显示:
-      </ion-col>
+      </ion-text>
       <ion-segment value="on">
         <ion-segment-button value="on">
           开
@@ -29,15 +25,15 @@
           关
         </ion-segment-button>
       </ion-segment>
-    </ion-row>
-  </ion-toolbar>
 
-  <ion-toolbar style="top:20px">
+    </ion-toolbar>
+
+    <!--  <ion-toolbar style="top:20px">
     <ion-row>
       <ion-col style="text-align: center;" size="3">
         昼夜模式:
       </ion-col>
-    <!--   <ion-col>
+      <ion-col>
         <ion-item>
           <ion-datetime displayFormat="HH:mm" minuteValues="0,15,30,45" value="2012-12-15T07:00:20"></ion-datetime>
 
@@ -45,45 +41,20 @@
           </ion-datetime>
         </ion-item>
 
-      </ion-col> -->
+      </ion-col>
     </ion-row>
-  </ion-toolbar>
+  </ion-toolbar> -->
 
-  <ion-toolbar style="top:30px">
-    <ion-row>
-      <ion-col style="text-align: center;" size="3">
+    <ion-toolbar style="top:20px">
+      <ion-text style="left: 3rem;top:-0.5rem;  position: relative;">
         静音:
-      </ion-col>
-      <ion-col>
-        <ion-toggle color="primary"></ion-toggle>
-      </ion-col>
-    </ion-row>
-  </ion-toolbar>
+      </ion-text>
+      <ion-toggle style="left: 6rem;  position: relative;" color="primary"></ion-toggle>
+    </ion-toolbar>
 
-  <ion-toolbar style="top:40px;">
-    <ion-button style="width:100%;">退出登陆</ion-button>
-  </ion-toolbar>
+    <ion-toolbar style="top:30px;">
+      <ion-button (click)="exit()" style="width:100%;">退出登陆</ion-button>
+    </ion-toolbar>
 
+  </div>
 </div>
-
-
-<!-- <ion-content>
-
-  
-
-
- 
-
- 
-
-  
-
-
-
-</ion-content> -->
-
-<!-- <ion-footer class="ion-no-border">
-  <ion-toolbar>
-    <ion-title>Footer - No Border</ion-title>
-  </ion-toolbar>
-</ion-footer> -->
