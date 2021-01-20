@@ -18,21 +18,26 @@ export class SocketService implements OnInit, OnDestroy {
     console.log(str);
     return this.httpClient.get("http://apis.imooc.com/api");
   }
+  user = {
+    
+    userId: null,
+  
+    connect: true,
+  };
 
   connect: any;
   //第一次判断网络状态
   checkNetwork() {
     let newVariable: any;
     newVariable = window.navigator;
-    var networkState = newVariable.connection.type; 
+    var networkState = newVariable.connection.type;
   }
   getnetmessage() {
-   
     this.network.onDisconnect().subscribe(() => {
       this.connect = "离线";
       return false;
     });
-    
+
     this.network.onConnect().subscribe(() => {
       this.connect = "在线";
 

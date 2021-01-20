@@ -28,6 +28,9 @@ export class HomePage implements OnInit, OnDestroy {
   checkOtherInfo = true;
   liIndex: any;
 
+  //确认到达
+  confirmearrive = false;
+
   // 激活/模式/排序
   workStatus = {
     active: false,
@@ -68,6 +71,7 @@ export class HomePage implements OnInit, OnDestroy {
     });
   }
 
+  //获取经纬度信息
   getGeolocation() {
     this.geolocation
       .getCurrentPosition()
@@ -103,6 +107,17 @@ export class HomePage implements OnInit, OnDestroy {
     }
   }
 
+  //退出回到tasklist页面
+  gotolist() {
+    this.AlertConfirm()
+    
+  }
+
+  //确认到达
+  confirmed() {
+    this.nav.navigateRoot("/tasklist");
+  }
+
   // 安卓硬件退出
   backButtonEvent() {
     this.platform.backButton.subscribe(() => {
@@ -110,5 +125,31 @@ export class HomePage implements OnInit, OnDestroy {
         // this.backAlertConfirm();
       }
     });
+  }
+  // 退出提示
+  async AlertConfirm() {
+    const alert = await this.alertController.create({
+      cssClass: "my-custom-class",
+      header: "",
+      message: "退出当前导航？",
+      buttons: [
+        {
+          text: "取消",
+          role: "cancel",
+          cssClass: "secondary",
+          handler: blah => {
+            console.log("Confirm Cancel: blah");
+          },
+        },
+        {
+          text: "确定",
+          handler: () => {
+            this.nav.navigateRoot("/tasklist");
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 }

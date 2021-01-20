@@ -60,7 +60,7 @@ export class WelcomePage implements OnInit {
 
     //this.getGeolocation();
     //this.nav.navigateRoot('/home');
-    this.nav.navigateRoot("/tasklist");
+    this.nav.navigateRoot("/login");
   }
 
   getGeolocation() {

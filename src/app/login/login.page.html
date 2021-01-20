@@ -1,50 +1,22 @@
 <ion-content (click)="hideSelect()">
-    <!-- <div class="connect-status" >
-        <ion-icon name="information-circle"></ion-icon>当前网络不可用，请检查你的网络设置
-    </div> -->
+
     <div class="login-form">
         <img src="../../assets/image/logo.png" class="logo" alt="">
         <ion-grid>
+
             <ion-row>
                 <ion-col size="4">
-                    Operation
+                    登 陆 名:
                 </ion-col>
                 <ion-col size="8">
-                    <div class="select-wrap">
-                        <div class="select-show" (click)="$event.stopPropagation(); toggleSelect()">{{showSelection(operation)}}</div>
-                        <div class="select-option-wrap" *ngIf="showSelect">
-                            <ul class="option-list">
-                                <li *ngFor="let v of operations" [value]="v.value" (click)="$event.stopPropagation(); chooseOption(v)">{{v.label}}</li>
-                            </ul>
-                        </div>
-                    </div>
+                    <input maxlength="12" type="text" placeholder="请输入登陆名" [(ngModel)]="userID">
                 </ion-col>
             </ion-row>
-            <ion-row>
-                <ion-col size="4">
-                    User-ID
-                </ion-col>
-                <ion-col size="8">
-                    <input maxlength="12" type="text" placeholder="请输入User ID" [(ngModel)]="userID">
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col size="4">
-                    设备编号
-                </ion-col>
-                <ion-col size="8">
-                    <input id="rdt" autofocus [ngClass]="{'disable': enoDisable}" name="rdt" maxlength="7" type="text" [disabled]="enoDisable" [(ngModel)]="rdtId">
-                    <ion-checkbox mode="md" [(ngModel)]="checkEdit" (click)="selectCheckbox()"></ion-checkbox>
-                    <span class="tip">勾选后可编辑</span>
-                </ion-col>
-            </ion-row>
+
         </ion-grid>
-        <button class="login-btn" [ngClass]="{'disable': operating}" [disabled]="operating" (click)="login()">登录</button>
+        <button class="login-btn" [ngClass]="{'disable': operating}" [disabled]="operating"
+            (click)="login()">登录</button>
         <div class="delayLoad" *ngIf="delayLoad">请在{{delayTime}}秒后重试</div>
     </div>
 
 </ion-content>
-
-
-
-
