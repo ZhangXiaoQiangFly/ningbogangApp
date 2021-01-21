@@ -1,29 +1,45 @@
 <app-headsetting class="headsetting"></app-headsetting>
 <ion-content>
-  <!--  <ion-button (click)="toggleInfiniteScroll()" expand="block">
-    Toggle Infinite Scroll
-  </ion-button> -->
+  <ion-item>
+    <ion-label style="text-align: center;font-weight:900;">实时指令</ion-label>
+  </ion-item>
+  <!-- <ion-list *ngFor="let item of instructlist">
   
-  <ion-list>
-    <ion-item (click)="handclick($event)"> 
-      <ion-label >Pokémon Yellow</ion-label>
+    <ion-item (click)="handclick(item)">
+      <ion-label>{{item}}</ion-label>
+
+      <ion-avatar class='head-avatar'>
+        <img src="../../../assets/image/goto.png">
+      </ion-avatar>
     </ion-item>
-    <ion-item>
-      <ion-label>Mega Man X</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>The Legend of Zelda</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Pac-Man</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Super Mario World</ion-label>
-    </ion-item>
-  </ion-list>
-  
-  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
-    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
-    </ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+  </ion-list> -->
+  <div class="cmd-wrap" [ngClass]="{'data-bg': instructlist.length === 0}">
+    <div class="cmd-list-wrap">
+      <ul class="cmd-list">
+        <li *ngFor="let item of instructlist; let i = index;" [ngClass]="{'on': liIndex === i}"
+         >
+          <div class="cmd-item"><span class="span-layout">{{i + 1}}</span><label>箱号:</label>
+            <div>
+              <span class="box-icon f" *ngIf="item?.TwinStatus === '1'">F</span>
+              <span class="box-icon b" *ngIf="item?.TwinStatus === '2'">B</span>
+              {{item?.ContainerID}}
+
+            </div>
+          </div>
+          <div class="cmd-item"><span class="span-layout">&nbsp;</span><label>From/To:</label>
+            <div style="float:left;width:50%;">{{item?.GotoStatus}}</div>
+            <ion-icon (click)="handclick(item,i)" name="arrow-up-outline"></ion-icon>
+          </div>
+          <div class="cmd-item"><span class="span-layout">&nbsp;</span><label>位置:</label>
+           <!--  <div>{{item?.GoToPos + '  ' + item?.door}}</div> -->
+          </div>
+          <div class="cmd-item"><span class="span-layout">&nbsp;</span><label>备注:</label>
+            <div>{{item?.Remarks}}</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
 </ion-content>

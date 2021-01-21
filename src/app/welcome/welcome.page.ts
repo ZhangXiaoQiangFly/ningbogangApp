@@ -6,11 +6,12 @@ import { Component, OnInit } from "@angular/core";
 import { NavController } from "@ionic/angular";
 import { HttpClient } from "@angular/common/http";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
-import { interval } from "rxjs";
-import { map } from "rxjs/operators";
-import { Observable } from "rxjs";
-import { Network } from "@ionic-native/network/ngx";
+import { interval, Subscription } from "rxjs";
 
+import { map } from "rxjs/operators";
+
+import { Network } from "@ionic-native/network/ngx";
+import { Observable } from "rxjs";
 @Component({
   selector: "app-welcome",
   templateUrl: "./welcome.page.html",
@@ -25,14 +26,28 @@ export class WelcomePage implements OnInit {
   i = 0;
   connect: any;
 
-  countDown$: Observable<any>;
-
+  //countDown$: Observable<any>;
+  subscription: Subscription;
   constructor(
     private geolocation: Geolocation,
     private nav: NavController,
     private socketService: SocketService
-  ) {}
+  ) {
+    // 创建观察者
+    this.subscription = this.socketService.getMessage().subscribe(message => {
+      console.log("message", message);
+    });
+    this.sendMessage(); // 发短信
+  }
+  sendMessage(): void {
+    // 发送消息
+    this.socketService.sendMessage("Message from Home Component to App Component!");
+  }
 
+  clearMessage(): void {
+    // 清除消息
+    this.socketService.clearMessage();
+  }
   ngOnInit() {
     this.interval = setInterval(() => {
       this.time = this.time - 1;
@@ -41,8 +56,6 @@ export class WelcomePage implements OnInit {
         //this.nav.navigateRoot('/home');
       }
     }, 1000);
-
-   
   }
 
   openLogin() {

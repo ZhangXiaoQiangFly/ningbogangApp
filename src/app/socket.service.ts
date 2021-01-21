@@ -1,6 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, OnDestroy, OnInit } from "@angular/core";
 import { Network } from "@ionic-native/network/ngx";
+import { fromEvent, Observable, Subject } from "rxjs";
+
 
 @Injectable({
   providedIn: "root",
@@ -19,9 +21,8 @@ export class SocketService implements OnInit, OnDestroy {
     return this.httpClient.get("http://apis.imooc.com/api");
   }
   user = {
-    
     userId: null,
-  
+
     connect: true,
   };
 
@@ -32,6 +33,7 @@ export class SocketService implements OnInit, OnDestroy {
     newVariable = window.navigator;
     var networkState = newVariable.connection.type;
   }
+
   getnetmessage() {
     this.network.onDisconnect().subscribe(() => {
       this.connect = "离线";
@@ -50,5 +52,20 @@ export class SocketService implements OnInit, OnDestroy {
     if (networkState != "none") {
       this.connect = "在线";
     }
+  }
+
+  /* 发送可观测序列 */
+  private subject = new Subject<any>();
+
+  sendMessage(message: string) {
+    this.subject.next({ text: message });
+  }
+
+  clearMessage() {
+    this.subject.next();
+  }
+
+  getMessage(): Observable<any> {
+    return this.subject.asObservable();
   }
 }

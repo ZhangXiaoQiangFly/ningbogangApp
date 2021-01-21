@@ -8,28 +8,27 @@ import { SocketService } from "./../socket.service";
 })
 export class TaskListPage implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
+  liIndex: any;
+  instructlist: any;
   constructor(
     private nav: NavController,
     private socketService: SocketService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.instructlist = ["第一条", "第二条", "第一条", "第二条"];
+  }
 
   loadData(event) {
     setTimeout(() => {
       console.log("Done");
       event.target.complete();
-
-      // App logic to determine if all data is loaded
-      // and disable the infinite scroll
     }, 500);
   }
 
-  toggleInfiniteScroll() {
-    this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
-  }
-  handclick(event) {
-    this.nav.navigateRoot("/home");
-    console.log(event);
+  handclick(item?: any, i?: number) {
+    // this.nav.navigateRoot("/home");
+    this.liIndex = i;
+    console.log(item);
   }
 }
