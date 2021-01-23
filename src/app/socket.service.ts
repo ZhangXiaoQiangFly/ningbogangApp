@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable, OnDestroy, OnInit } from "@angular/core";
 import { Network } from "@ionic-native/network/ngx";
 import { fromEvent, Observable, Subject } from "rxjs";
-
+/* import { Socket } from "@smx/ng-socket-io"; */
 
 @Injectable({
   providedIn: "root",
@@ -14,7 +14,14 @@ export class SocketService implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     throw new Error("Method not implemented.");
   }
-  constructor(private httpClient: HttpClient, private network: Network) {}
+  constructor(
+    private httpClient: HttpClient,
+    private network: Network,
+  /*   private socket: Socket */
+  ) {
+ /*    this.socket.on("disconnect", () => {});
+    this.socket.on("reconnect", () => {}); */
+  }
 
   getmessage(str: String) {
     console.log(str);
