@@ -37,9 +37,18 @@
               },
               {
                 "input": "src/global.scss"
+              },{
+                "input": "css/style.css"
               }
+              ,{
+                "input": "css/smartmapx.css"
+              }
+            
             ],
-            "scripts": []
+            "scripts": [
+              "js/smartnavix.js"
+            
+            ]
           },
           "configurations": {
             "production": {

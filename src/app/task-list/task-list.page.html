@@ -2,7 +2,7 @@
 <div class="command" [ngClass]="{'is_fixed': isFixed}">
   <span>实时指令</span>
 </div>
-<ion-content (ionScroll)="ionScroll($event)" scrollEvents="true">
+<ion-content >
   <div class="cmd-wrap" [ngClass]="{'data-bg': instructlist.length === 0}">
     <div class="cmd-list-wrap">
       <ul class="cmd-list">

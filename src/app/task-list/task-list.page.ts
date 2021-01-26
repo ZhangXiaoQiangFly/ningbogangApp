@@ -32,11 +32,7 @@ export class TaskListPage implements OnInit {
    
   }
  
-  ionScroll(event) {
-    let scrollTop = event.detail.scrollTop;
-    this.isFixed = scrollTop > 66 ? true : false;
-    console.log(event.detail.scrollTop);
-  }
+ 
 
   loadData(event) {
     setTimeout(() => {
@@ -46,8 +42,9 @@ export class TaskListPage implements OnInit {
   }
  
   handclick(item?: any, i?: number) {
-    // this.nav.navigateRoot("/home");
+   
     this.liIndex = i;
     console.log(item);
+    this.nav.navigateRoot("/home");
   }
 }
