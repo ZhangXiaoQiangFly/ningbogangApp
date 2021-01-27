@@ -58,6 +58,10 @@ export class HomePage implements OnInit, OnDestroy {
   fromMarker: any;
   toMarker: any;
   navigationControl: any;
+  //剩余里程
+  resmile: String;
+  //预计时间
+  restime: String;
 
   constructor(
     /* private socketService: SocketService, */
@@ -92,6 +96,8 @@ export class HomePage implements OnInit, OnDestroy {
     this.map.addControl(this.navigationControl, "top-right");
     // 初始化路径计算服务
     this.locationEngine = new smartnavx.SimulateLocationEngine(null, 10);
+
+    //this.locationEngine = new smartnavx.WeixinRemoteLocationEngine(null);
 
     this.map.on("load", () => {
       this.mapLoaded = true;
@@ -302,6 +308,8 @@ export class HomePage implements OnInit, OnDestroy {
 
   setNavigationInfo(routeLeg) {
     this.map.getSource("routing").setData(routeLeg.geometry);
+    this.resmile = distanceDesc2(routeLeg.distance);
+    this.restime = durationDesc(routeLeg.duration);
     /*    this.map.fitBounds(this.turf.bbox(routeLeg.geometry), {
      padding: {
        top: 30,
@@ -356,7 +364,7 @@ export class HomePage implements OnInit, OnDestroy {
   voicePlayer = new smartnavx.HtmlVoicePlayer();
 
   navigationListener = {
-    startNavigation(event) {
+    startNavigation: (event) => {
       console.log("startNavigation", event);
       // 添加运行marker
       if (this.runMarker) {
@@ -374,13 +382,16 @@ export class HomePage implements OnInit, OnDestroy {
         .addTo(this.map);
     },
 
-    locationUpdate(event) {
+    locationUpdate: (event) => {
       // 更新地图上的点
+      this.resmile = distanceDesc2(event.toDestinationDistance);
+      this.restime = durationDesc(event.toDestinationTime);
       console.log(
         `剩余里程:${distanceDesc2(
           event.toDestinationDistance
         )}; 剩余时间:${durationDesc(event.toDestinationTime)}`
       );
+
       const location = event.location;
       const track = event.track;
       if (track) {
@@ -399,7 +410,7 @@ export class HomePage implements OnInit, OnDestroy {
       // map.setBearing(location.heading);
       // map.setCenter(lngLat);
     },
-    showTurn(event) {
+    showTurn: (event) => {
       // 更新导航引导信息
       const step = event.target.step;
       let html;
@@ -427,14 +438,14 @@ export class HomePage implements OnInit, OnDestroy {
       //console.log("showTurn", event);
     },
 
-    voiceTurn(event) {
+    voiceTurn: (event) => {
       const voiceTurnGuidanceArray = event.target;
       const firstVoiceTurnGuidance = voiceTurnGuidanceArray[0];
       let content = "";
       if (firstVoiceTurnGuidance.step.maneuver.type === "depart") {
         content =
           "向" +
-          directionDesc(this.step.maneuver.modifier) +
+          directionDesc(firstVoiceTurnGuidance.step.maneuver.modifier) +
           "出发，行驶" +
           distanceDesc(firstVoiceTurnGuidance.nextStep);
       } else if (
@@ -490,32 +501,36 @@ export class HomePage implements OnInit, OnDestroy {
       console.log("voiceTurn", content, event);
     },
 
-    overSpeed(event) {
+    overSpeed: (event) => {
       const content =
         "您已超速，车速" +
         event.drivingSpeed +
         "，当前路段限速" +
         event.limitSpeed;
       console.log(content);
-      this.playVoice(content);
+      this.playVoice(content, false);
     },
 
-    willEnterLastRoad(event) {
+    willEnterLastRoad: (event) => {
       console.log("willEnterLastRoad", event);
       const step = event.target.step;
       const name = step.name ? "目的地入口" : step.name + "入口";
-      this.playVoice("前方" + distanceDesc2(event.distance) + "进入" + name);
+      this.playVoice(
+        "前方" + distanceDesc2(event.distance) + "进入" + name,
+        false
+      );
     },
 
-    endNavigation(event) {
-      this.playVoice("您已到达目的地，本次导航结束");
+    endNavigation: (event) => {
+      this.playVoice("您已到达目的地，本次导航结束", false);
       this.navigationControl.setHTML("<div>您已到达目的地，本次导航结束</div>");
+      this.confirmearrive = true;
       console.log("endNavigation", event);
     },
 
-    willEndNavigation(event) {
+    willEndNavigation: (event) => {
       console.log("即将抵达目的地！");
-      this.playVoice("即将抵达目的地！");
+      this.playVoice("即将抵达目的地！", false);
     },
   };
 
@@ -528,9 +543,10 @@ export class HomePage implements OnInit, OnDestroy {
     if (this.locationEngine) {
       this.locationEngine.stop();
     }
-
-    if (this.locationEngine.getProvider() === "simulator")
+    this.locationEngine.setRouteLeg(this.routeLeg);
+    if (this.locationEngine.getProvider() === "simulator") {
       this.locationEngine.setRouteLeg(this.routeLeg);
+    }
 
     this.navigation = new smartnavx.Navigation(
       this.pathFinder,

@@ -1,21 +1,22 @@
 <ion-header>
-    <app-headsetting class="setting"></app-headsetting>
+  <app-headsetting class="setting"></app-headsetting>
 </ion-header>
 <div id="map"></div>
 
-
 <ion-footer>
-
-    <ng-container *ngIf="confirmearrive; else elseTemplate">
-        <ion-button class="confirmed" (click)="confirmed()">确认到达</ion-button>
-    </ng-container>
-    <ng-template #elseTemplate>
-        <ion-toolbar>
-        </ion-toolbar>
-        <ion-toolbar>
-            <!-- <ion-button class="back" (click)="gotolist()">退出</ion-button> -->
-            <ion-button class="back" (click)="startnavi()">开始导航</ion-button>
-            <ion-button class="back" (click)="stopnavi()">退出导航</ion-button>
-        </ion-toolbar>
-    </ng-template>
+  <ng-container *ngIf="confirmearrive; else elseTemplate">
+    <ion-button class="confirmed" (click)="confirmed()">确认到达</ion-button>
+  </ng-container>
+  <ng-template #elseTemplate>
+    <ion-toolbar >
+      <ion-label style="display: flex; justify-content: space-around"> 剩余里程：{{resmile}}&nbsp;&nbsp;
+        &nbsp;&nbsp; &nbsp;&nbsp;预计时间：{{restime}} </ion-label>
+      
+    </ion-toolbar>
+    <ion-toolbar>
+      <!-- <ion-button class="back" (click)="gotolist()">退出</ion-button> -->
+      <ion-button class="back" (click)="startnavi()">开始导航</ion-button>
+      <ion-button class="back" (click)="stopnavi()">退出导航</ion-button>
+    </ion-toolbar>
+  </ng-template>
 </ion-footer>
