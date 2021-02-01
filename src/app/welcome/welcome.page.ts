@@ -34,14 +34,16 @@ export class WelcomePage implements OnInit {
     private socketService: SocketService
   ) {
     // 创建观察者
-    this.subscription = this.socketService.getMessage().subscribe(message => {
+    this.subscription = this.socketService.getMessage().subscribe((message) => {
       console.log("message", message);
     });
     this.sendMessage(); // 发短信
   }
   sendMessage(): void {
     // 发送消息
-    this.socketService.sendMessage("Message from Home Component to App Component!");
+    this.socketService.sendMessage(
+      "Message from Home Component to App Component!"
+    );
   }
 
   clearMessage(): void {
@@ -49,6 +51,7 @@ export class WelcomePage implements OnInit {
     this.socketService.clearMessage();
   }
   ngOnInit() {
+    this.getGeolocation();
     this.interval = setInterval(() => {
       this.time = this.time - 1;
       if (this.time === 0) {
@@ -61,55 +64,44 @@ export class WelcomePage implements OnInit {
   openLogin() {
     clearInterval(this.interval);
     this.socketService.getmessage("qwer").subscribe(
-      res => {
+      (res) => {
         console.log("res");
         console.log(res);
       },
-      err => {
+      (err) => {
         console.log("err");
         console.log(err);
       }
     );
 
-    //this.getGeolocation();
     //this.nav.navigateRoot('/home');
     this.nav.navigateRoot("/login");
   }
+  //获取经纬度信息
 
   getGeolocation() {
     this.geolocation
       .getCurrentPosition()
-      .then(resp => {
-        this.latitude = resp.coords.latitude;
-        this.longitude = resp.coords.longitude;
+      .then((resp) => {
+        localStorage.setItem("latitude", resp.coords.latitude+"");
+        localStorage.setItem("longitude", resp.coords.longitude + "");
         console.log(
           "latitude:" +
             resp.coords.latitude +
             "-------longitude:" +
             resp.coords.longitude
         );
-
-        // resp.coords.latitude
-        // resp.coords.longitude
       })
-      .catch(error => {
-        this.latitude = null;
-        this.longitude = null;
+      .catch((error) => {
         console.log("Error getting location", error);
       });
-
     let watch = this.geolocation.watchPosition();
-    watch.subscribe(data => {
-      console.log(data);
-      this.data1 = data;
-      this.i++;
+    watch.subscribe((data) => {
+      console.log("getGeolocation" + data);
       //获取经纬度的变化，进行位置传递，100ms内的变化只进行一次
       this.debounce(() => {
         //进行位置传递
       }, 100);
-      // data can be a set of coordinates, or an error (if an error occurred).
-      // data.coords.latitude
-      // data.coords.longitude
     });
   }
   timeout = null;

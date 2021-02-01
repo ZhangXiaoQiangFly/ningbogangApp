@@ -25,7 +25,7 @@ export class SocketService implements OnInit, OnDestroy {
 
   getmessage(str: String) {
     console.log(str);
-    return this.httpClient.get("http://apis.imooc.com/api");
+    return this.httpClient.get("http://baidu.com");
   }
   user = {
     userId: null,

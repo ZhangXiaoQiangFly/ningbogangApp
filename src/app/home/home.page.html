@@ -1,22 +1,44 @@
 <ion-header>
   <app-headsetting class="setting"></app-headsetting>
 </ion-header>
-<div id="map"></div>
+<!-- <ng-container *ngIf="roadGeojsonLoaded;">
+  
+</ng-container> -->
 
-<ion-footer>
-  <ng-container *ngIf="confirmearrive; else elseTemplate">
-    <ion-button class="confirmed" (click)="confirmed()">确认到达</ion-button>
+<div>
+  <div id="map"></div>
+  <ng-container *ngIf="roadGeojsonLoaded; else elseTemplate">
+    <!-- <ion-toolbar
+      color="primary"
+      style="width: 90%; left: 5%; position: absolute; top: 15%;border-radius: 0.4rem ;"
+    >
+      <div [innerHTML]="html" style="text-align: center;"></div>
+    </ion-toolbar> -->
+    <ion-footer>
+      <ng-container *ngIf="confirmearrive; else elseTemplate">
+        <ion-button class="confirmed" (click)="confirmed()"
+          >确认到达</ion-button
+        >
+      </ng-container>
+      <ng-template #elseTemplate>
+        <ion-toolbar>
+          <ion-label style="display: flex; justify-content: space-around">
+            剩余里程：{{resmile}}&nbsp;&nbsp; &nbsp;&nbsp;
+            &nbsp;&nbsp;预计时间：{{restime}}
+          </ion-label>
+        </ion-toolbar>
+        <ion-toolbar>
+          <!-- <ion-button class="back" (click)="gotolist()">退出</ion-button> -->
+          <ion-button class="back" (click)="startnavi()">开始导航</ion-button>
+          <ion-button class="back" (click)="stopnavi()">退出导航</ion-button>
+        </ion-toolbar>
+      </ng-template>
+    </ion-footer>
   </ng-container>
   <ng-template #elseTemplate>
-    <ion-toolbar >
-      <ion-label style="display: flex; justify-content: space-around"> 剩余里程：{{resmile}}&nbsp;&nbsp;
-        &nbsp;&nbsp; &nbsp;&nbsp;预计时间：{{restime}} </ion-label>
-      
-    </ion-toolbar>
-    <ion-toolbar>
-      <!-- <ion-button class="back" (click)="gotolist()">退出</ion-button> -->
-      <ion-button class="back" (click)="startnavi()">开始导航</ion-button>
-      <ion-button class="back" (click)="stopnavi()">退出导航</ion-button>
-    </ion-toolbar>
+    <div class="noload">
+      <img src="../../assets/image/loading-svg/loading-spin.svg" alt="" />
+      <div style="color: aliceblue">导航路线规划中，请稍等</div>
+    </div>
   </ng-template>
-</ion-footer>
+</div>

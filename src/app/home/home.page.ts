@@ -6,7 +6,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
 import { NavController, ToastController, Platform } from "@ionic/angular";
 import { AlertController } from "@ionic/angular";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute, Params } from "@angular/router";
 import * as smartmapx from "@smx/api";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { SocketService } from "./../socket.service";
@@ -49,7 +49,7 @@ export class HomePage implements OnInit, OnDestroy {
   locationEngine: any;
   pathFinder: any;
   navigation: any;
-  roadGeojsonLoaded = false;
+
   mapLoaded = false;
   runMarker: any;
   finding = false;
@@ -63,6 +63,11 @@ export class HomePage implements OnInit, OnDestroy {
   //预计时间
   restime: String;
 
+  //导航规划完成
+  roadGeojsonLoaded = false;
+
+  html: any;
+
   constructor(
     /* private socketService: SocketService, */
     private geolocation: Geolocation,
@@ -71,12 +76,24 @@ export class HomePage implements OnInit, OnDestroy {
     private nav: NavController,
     private router: Router,
     private platform: Platform,
-    private socketService: SocketService
+    private socketService: SocketService,
+    public activeRoute: ActivatedRoute
   ) {
-    this.backButtonEvent();
+    //this.backButtonEvent();
+    /*   this.activeRoute.queryParams.subscribe((params: Params) => {
+     
+      console.log(
+        
+        "longitude:" + params["longitude"] + "------latitude" + params["latitude"]
+      );
+    }); */
   }
 
   ngOnInit(): void {
+    //this.getGeolocation();
+    console.log(localStorage.getItem("longitude"));
+    console.log(localStorage.getItem("latitude"));
+
     smartmapx.mapbase = "https://zgnav.npedi.com/";
     /*  smartmapx.mapbase = "http://dev.smartmapx.com"; */
     smartmapx.apikey =
@@ -93,9 +110,9 @@ export class HomePage implements OnInit, OnDestroy {
       closeButton: false,
       html: "<h1>导航</h1>",
     });
-    this.map.addControl(this.navigationControl, "top-right");
+    //this.map.addControl(this.navigationControl, "top-right");
     // 初始化路径计算服务
-    this.locationEngine = new smartnavx.SimulateLocationEngine(null, 10);
+    this.locationEngine = new smartnavx.SimulateLocationEngine(null, 100);
 
     //this.locationEngine = new smartnavx.WeixinRemoteLocationEngine(null);
 
@@ -301,6 +318,7 @@ export class HomePage implements OnInit, OnDestroy {
         } else {
           this.routeLeg = route.legs[0];
           this.setNavigationInfo(this.routeLeg);
+          console.log(" routeLeg " + this.routeLeg);
         }
       }
     );
@@ -310,6 +328,20 @@ export class HomePage implements OnInit, OnDestroy {
     this.map.getSource("routing").setData(routeLeg.geometry);
     this.resmile = distanceDesc2(routeLeg.distance);
     this.restime = durationDesc(routeLeg.duration);
+    let html = "";
+    routeLeg.steps.forEach((step) => {
+      if (step.maneuver.type === "depart") {
+        html +=
+          '<tr>向' +
+          directionDesc(step.maneuver.bearing_after) +
+          "出发</td><td>沿" +
+          getRoadName(step.name) +
+          "</td><td>行驶" +
+          distanceDesc2(step.distance) +
+          "</td></tr>";
+      }
+    });
+    this.html = html;
     /*    this.map.fitBounds(this.turf.bbox(routeLeg.geometry), {
      padding: {
        top: 30,
@@ -423,7 +455,7 @@ export class HomePage implements OnInit, OnDestroy {
           distanceDesc2(event.distance) +
           "抵达</div><div>目的地</div>";
       } else {
-        html =
+        /*  html =
           '<div><span class="' +
           turnToIcon(step.maneuver.modifier) +
           '"></span>' +
@@ -431,10 +463,19 @@ export class HomePage implements OnInit, OnDestroy {
           driveRoadPretText(step) +
           "</div><div>" +
           getRoadName(step.name) +
-          "</div>";
+          "</div>"; */
+        html =
+          '<div><span class="' +
+          turnToIcon(step.maneuver.modifier) +
+          '"></span>' +
+          driveRoadPretText(step) +
+          getRoadName(step.name) +
+          "行驶" +
+          distanceDesc2(event.distance);
+        ("</div>");
       }
-
-      this.navigationControl.setHTML(html);
+      this.html = html;
+      //this.navigationControl.setHTML(html);
       //console.log("showTurn", event);
     },
 
@@ -523,7 +564,8 @@ export class HomePage implements OnInit, OnDestroy {
 
     endNavigation: (event) => {
       this.playVoice("您已到达目的地，本次导航结束", false);
-      this.navigationControl.setHTML("<div>您已到达目的地，本次导航结束</div>");
+      //this.navigationControl.setHTML("<div>您已到达目的地，本次导航结束</div>");
+      this.html = "<div>您已到达目的地，本次导航结束</div>";
       this.confirmearrive = true;
       console.log("endNavigation", event);
     },
@@ -543,22 +585,10 @@ export class HomePage implements OnInit, OnDestroy {
     if (this.locationEngine) {
       this.locationEngine.stop();
     }
-    this.locationEngine.setRouteLeg(this.routeLeg);
+
     if (this.locationEngine.getProvider() === "simulator") {
       this.locationEngine.setRouteLeg(this.routeLeg);
     }
-
-    this.navigation = new smartnavx.Navigation(
-      this.pathFinder,
-      this.locationEngine,
-      {
-        overspeedRoad: false,
-        overspeedCheckInterval: 1000,
-        overspeedContinuedCount: 3,
-      }
-    );
-    this.navigation.hasWillEnterLastRoad = true;
-    this.navigation.willEnterLastRoadDistance = 50;
 
     this.navigation.start(this.routeLeg, this.navigationListener);
     const request = new smartnavx.LocationEngineRequest();
@@ -588,6 +618,7 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   //获取经纬度信息
+
   getGeolocation() {
     this.geolocation
       .getCurrentPosition()
@@ -598,22 +629,23 @@ export class HomePage implements OnInit, OnDestroy {
             "-------longitude:" +
             resp.coords.longitude
         );
-
-        // resp.coords.latitude
-        // resp.coords.longitude
       })
       .catch((error) => {
         console.log("Error getting location", error);
       });
-
     let watch = this.geolocation.watchPosition();
     watch.subscribe((data) => {
-      console.log(data);
-
-      // data can be a set of coordinates, or an error (if an error occurred).
-      // data.coords.latitude
-      // data.coords.longitude
+      console.log("getGeolocation" + data);
+      //获取经纬度的变化，进行位置传递，100ms内的变化只进行一次
+      this.debounce(() => {
+        //进行位置传递
+      }, 100);
     });
+  }
+  timeout = null;
+  debounce(fn, wait) {
+    if (this.timeout !== null) clearTimeout(this.timeout);
+    this.timeout = setTimeout(fn, wait);
   }
 
   ngOnDestroy(): void {

@@ -1,32 +1,42 @@
- .setting {
-     z-index: 100;
-     position: absolute;
-     left: 1rem;
-     top: 1rem;
- }
- .back{
-     float: right;
-     width: 4rem;
-     height: 2rem;
-    
-   
- }
- .confirmed{
-     width: 100%;
-     height: 3rem;
- }
+.setting {
+  z-index: 100;
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+}
+.back {
+  float: right;
+  width: 4rem;
+  height: 2rem;
+}
 
- #map {
-     position: absolute;
-     top: -1.5rem;
-     bottom: 0;
-     width: 100%;
-     height: 100%;
+.confirmed {
+  width: 100%;
+  height: 3rem;
+}
 
+#map {
+  position: absolute;
+  top: -1.5rem;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
 
-     /*  .smartmapx-canvas {
+  /*  .smartmapx-canvas {
          position: absolute;
          width: 100%;
          height: 660px;
      } */
- }
+}
+.noload {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(223, 168, 168,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  flex-direction:column ;
+
+}
