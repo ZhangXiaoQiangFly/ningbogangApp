@@ -1,12 +1,15 @@
-
 import { Injectable, OnDestroy, OnInit } from "@angular/core";
 import { Network } from "@ionic-native/network/ngx";
-/* import { Socket } from "@smx/ng-socket-io"; */
+
+import { Observable } from "rxjs";
+
 
 @Injectable({
   providedIn: "root",
 })
 export class SocketService implements OnInit, OnDestroy {
+  ws: WebSocket;
+
   user = {
     rdtId: null,
     userId: null,
@@ -27,17 +30,20 @@ export class SocketService implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     throw new Error("Method not implemented.");
   }
-  constructor(
-  
-    private network: Network,
-   /*  private socket: Socket */
-  ) {
-  /*      this.socket.on("disconnect", () => {});
-    this.socket.on("reconnect", () => {}); */
+  constructor(private network: Network ) {
+    
   }
-
-
-
+  createObservableSocket(url: string): Observable<any> {
+    this.ws = new WebSocket(url);
+    return new Observable<any>((observable) => {
+      this.ws.onmessage = (event) => observable.next(event.data);
+      this.ws.onerror = (event) => observable.error(event);
+      this.ws.onclose = (event) => observable.complete();
+    });
+  }
+  sendMessage(message: string) {
+    this.ws.send(message);
+  }
 
   connect: any;
   //第一次判断网络状态
@@ -66,6 +72,4 @@ export class SocketService implements OnInit, OnDestroy {
       this.connect = "在线";
     }
   }
-
-  
 }

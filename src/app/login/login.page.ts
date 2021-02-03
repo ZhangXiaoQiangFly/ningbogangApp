@@ -8,7 +8,7 @@ import {
   Platform,
   ToastController,
 } from "@ionic/angular";
-//import {SocketService} from '../socket.service';
+
 import { Subscription } from "rxjs";
 import { Router } from "@angular/router";
 import { SocketService } from "../socket.service";
@@ -53,88 +53,39 @@ export class LoginPage implements OnInit, OnDestroy {
     private platform: Platform,
     private router: Router,
     private elementRef: ElementRef,
-    // private storage: Storage,
+    //private storage: Storage,
     private toast: ToastController,
     private socketService: SocketService
-  ) /* private socketService: SocketService */ {
+  ) {
     this.backButtonEvent();
   }
 
   ngOnInit() {
-    /* 
-        this.messageSubscription = this.socketService.getMessage().subscribe((data: any) => {
-            console.log(data);
-            if (data.type === 4101) { // 登录返回信息
-                clearTimeout(this.timer);
-                const content = data.content.split('*');
-                if (content[1] === '0') {
-                    // this.operating = false;
-                    // this.socketService.user.rdtId = this.rdtId.toUpperCase();
-                    // this.socketService.user.userId = this.userID;
-                    // this.socketService.user.loginType = this.operation;
-                    // localStorage.setItem('rdtId', this.rdtId);
-                    // localStorage.setItem('userId', this.userID);
-
-                    // 登录前记录user信息并跳转到指令页面
-                    this.recordUser();
-                    this.nav.navigateRoot('/home');
-                } else {
-                    this.error = content.length >= 6 ? content[5] : '登录错误';
-                    this.presentToast(this.error, 'danger');
-                    this.delayLoad = true;
-                    this.delayLoadButton();
-                }
-            } else if (data.type === 4100) { // 2020.05.20查询RDTID返回信息:如果第6位status_info = Y 则发送 3002 否则 发送4001  
-                clearTimeout(this.timer);
-                const content = data.content.split('*');
-                if (content[1] === '0') {
-                    sessionStorage.setItem('statusInfo', content[5]);
-                    // 发送登录报文
-                    if (this.rdtId.length > 0 && this.userID.length > 0) {
-
-                        // 如果第6位status_info = Y,则发送3002报文登录进入指令页，否则发送4001报文
-                        let typeNumber;
-                        let contentInfo;
-                        
-                        if (content[5] === 'Y') {
-                            typeNumber = 3002;
-                            contentInfo = `${this.rdtId.toUpperCase()}*Y`;
-
-                            // 登录前记录user信息并跳转到指令页面
-                            this.recordUser();
-                            this.nav.navigateRoot('/home');
-
-                        } else {
-                            typeNumber = 4001;
-                            contentInfo = `${this.rdtId.toUpperCase()}*${this.operation}*${this.userID}*0000`;
-                        }
-
-                        this.socketService.sendMessage({
-                            id: this.socketService.nextMessageId(),
-                            type: typeNumber,
-                            content: contentInfo
-                        });
-                    }
-                } else {
-                    this.operating = false;
-                    this.error = content.length >= 3 ? content[2] : 'RDT ID错误';
-                    this.presentToast(this.error, 'danger');
-                }
-
-            } else if (data.type === 4114) { // 退出app
-                clearTimeout(this.timer);
-                const content = data.content.split('*');
-                if (content[1] === '0') {
-                    navigator['app'].exitApp();
-                } else {
-                    this.presentToast(content[2], 'danger');
-                }
-            }
-        }); */
-
+    this.init();
     const value = localStorage.getItem("rdtId");
     this.rdtId = value || "T01";
-    /*  this.socketService.user.rdtId = value || 'T01'; */
+    /* 
+     this.socketService.user.rdtId = value || 'T01'; */
+  }
+  init() {
+    this.socketService
+      .createObservableSocket("ws://121.40.165.18:8800")
+      .subscribe(
+        (rep) => {
+          console.log("已连接 ws://121.40.165.18:8800");
+          console.log(rep);
+        },
+        (error) => {
+          console.log("出错");
+        },        
+        () => {
+          console.log("结束了");
+        },
+        
+      );
+  }
+  sendMessage(str: string) {
+    this.socketService.sendMessage(str);
   }
 
   ngOnDestroy() {
@@ -149,8 +100,8 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   /**
-     * 登录
-     */
+   * 登录
+   */
   login() {
     if (this.timer) {
       clearTimeout(this.timer);
@@ -162,9 +113,10 @@ export class LoginPage implements OnInit, OnDestroy {
       this.operating = false;
       return;
     }
-    this.nav.navigateRoot("/tasklist");
+    this.sendMessage(this.userID);
+    //this.nav.navigateRoot("/tasklist");
 
-   /*  this.timer = setTimeout(() => {
+    /*  this.timer = setTimeout(() => {
       this.operating = false;
       this.presentToast("连接超时，请重新登录");
     }, 5000); */
@@ -210,7 +162,7 @@ export class LoginPage implements OnInit, OnDestroy {
           text: "取消",
           role: "cancel",
           cssClass: "secondary",
-          handler: blah => {
+          handler: (blah) => {
             console.log("Confirm cancel");
           },
         },

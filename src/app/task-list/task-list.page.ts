@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { IonInfiniteScroll, NavController } from "@ionic/angular";
+import {  NavController } from "@ionic/angular";
 import { SocketService } from "./../socket.service";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 
@@ -9,7 +9,7 @@ import { Geolocation } from "@ionic-native/geolocation/ngx";
   styleUrls: ["./task-list.page.scss"],
 })
 export class TaskListPage implements OnInit {
-  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
+
   liIndex: any;
   instructlist: any;
   isFixed = false;
