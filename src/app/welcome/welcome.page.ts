@@ -1,17 +1,16 @@
-import { SocketService } from "./../socket.service";
 /**
  * 闪屏界面 处理第一屏幕操作逻辑
  */
+import { SocketService } from "./../socket.service";
 import { Component, OnInit } from "@angular/core";
 import { NavController } from "@ionic/angular";
-import { HttpClient } from "@angular/common/http";
-import { Geolocation } from "@ionic-native/geolocation/ngx";
+import { Geolocation } from "@ionic-native/geolocation/ngx"/*  */;
+
+
 import { interval, Subscription } from "rxjs";
 
-import { map } from "rxjs/operators";
-
 import { Network } from "@ionic-native/network/ngx";
-import { Observable } from "rxjs";
+
 @Component({
   selector: "app-welcome",
   templateUrl: "./welcome.page.html",
@@ -27,52 +26,32 @@ export class WelcomePage implements OnInit {
   connect: any;
 
   //countDown$: Observable<any>;
-  subscription: Subscription;
+
   constructor(
     private geolocation: Geolocation,
     private nav: NavController,
     private socketService: SocketService
   ) {
-    // 创建观察者
-    this.subscription = this.socketService.getMessage().subscribe((message) => {
-      console.log("message", message);
-    });
-    this.sendMessage(); // 发短信
-  }
-  sendMessage(): void {
-    // 发送消息
-    this.socketService.sendMessage(
-      "Message from Home Component to App Component!"
-    );
+  
+   
   }
 
-  clearMessage(): void {
-    // 清除消息
-    this.socketService.clearMessage();
-  }
+
+ 
   ngOnInit() {
     this.getGeolocation();
     this.interval = setInterval(() => {
       this.time = this.time - 1;
       if (this.time === 0) {
         clearInterval(this.interval);
-        //this.nav.navigateRoot('/home');
+         this.nav.navigateRoot("/login");
       }
     }, 1000);
   }
 
   openLogin() {
     clearInterval(this.interval);
-    this.socketService.getmessage("qwer").subscribe(
-      (res) => {
-        console.log("res");
-        console.log(res);
-      },
-      (err) => {
-        console.log("err");
-        console.log(err);
-      }
-    );
+   
 
     //this.nav.navigateRoot('/home');
     this.nav.navigateRoot("/login");

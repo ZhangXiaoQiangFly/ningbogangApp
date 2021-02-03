@@ -8,12 +8,12 @@
 <div>
   <div id="map"></div>
   <ng-container *ngIf="roadGeojsonLoaded; else elseTemplate">
-    <!-- <ion-toolbar
+    <ion-toolbar
       color="primary"
       style="width: 90%; left: 5%; position: absolute; top: 15%;border-radius: 0.4rem ;"
     >
       <div [innerHTML]="html" style="text-align: center;"></div>
-    </ion-toolbar> -->
+    </ion-toolbar>
     <ion-footer>
       <ng-container *ngIf="confirmearrive; else elseTemplate">
         <ion-button class="confirmed" (click)="confirmed()"

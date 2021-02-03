@@ -15,7 +15,7 @@ import { ParamInterceptor } from "./param.interceptor";
 import { Network } from "@ionic-native/network/ngx";
 import { HeadsettingModule } from "./module/headsetting/headsetting.module";
 /* import { SocketIoModule, SocketIoConfig } from "@smx/ng-socket-io"; */
-
+/* import { SocketIoModule, SocketIoConfig } from "ng-socket-io"; */
 
 /* const config: SocketIoConfig = { url: "b3rdt.nbport.com.cn:3001", options: {} }; */
 
@@ -31,6 +31,7 @@ import { HeadsettingModule } from "./module/headsetting/headsetting.module";
   /*   SocketIoModule.forRoot(config), */
   ],
   providers: [
+  /*   SocketIoModule, */
     SocketService,
     StatusBar,
     SplashScreen,

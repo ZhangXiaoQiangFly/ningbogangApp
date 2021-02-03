@@ -1,13 +1,26 @@
-import { HttpClient } from "@angular/common/http";
+
 import { Injectable, OnDestroy, OnInit } from "@angular/core";
 import { Network } from "@ionic-native/network/ngx";
-import { fromEvent, Observable, Subject } from "rxjs";
 /* import { Socket } from "@smx/ng-socket-io"; */
 
 @Injectable({
   providedIn: "root",
 })
 export class SocketService implements OnInit, OnDestroy {
+  user = {
+    rdtId: null,
+    userId: null,
+    loginType: null,
+    available: "N",
+    infoNum: 0,
+    gps: "nogps",
+    connect: true,
+  };
+  phone = {
+    setNo: null,
+    version: null,
+    imei: null,
+  };
   ngOnInit(): void {
     throw new Error("Method not implemented.");
   }
@@ -15,23 +28,16 @@ export class SocketService implements OnInit, OnDestroy {
     throw new Error("Method not implemented.");
   }
   constructor(
-    private httpClient: HttpClient,
+  
     private network: Network,
-  /*   private socket: Socket */
+   /*  private socket: Socket */
   ) {
- /*    this.socket.on("disconnect", () => {});
+  /*      this.socket.on("disconnect", () => {});
     this.socket.on("reconnect", () => {}); */
   }
 
-  getmessage(str: String) {
-    console.log(str);
-    return this.httpClient.get("http://baidu.com");
-  }
-  user = {
-    userId: null,
 
-    connect: true,
-  };
+
 
   connect: any;
   //第一次判断网络状态
@@ -61,18 +67,5 @@ export class SocketService implements OnInit, OnDestroy {
     }
   }
 
-  /* 发送可观测序列 */
-  private subject = new Subject<any>();
-
-  sendMessage(message: string) {
-    this.subject.next({ text: message });
-  }
-
-  clearMessage() {
-    this.subject.next();
-  }
-
-  getMessage(): Observable<any> {
-    return this.subject.asObservable();
-  }
+  
 }

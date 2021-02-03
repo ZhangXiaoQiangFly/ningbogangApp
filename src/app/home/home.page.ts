@@ -94,11 +94,11 @@ export class HomePage implements OnInit, OnDestroy {
     console.log(localStorage.getItem("longitude"));
     console.log(localStorage.getItem("latitude"));
 
-    smartmapx.mapbase = "https://zgnav.npedi.com/";
     /*  smartmapx.mapbase = "http://dev.smartmapx.com"; */
+
+    smartmapx.mapbase = "https://zgnav.npedi.com/";
     smartmapx.apikey =
       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE1MzcxODM1OTgsImRhdGEiOiJ7XCJsb2dpbl9uYW1lXCI6XCJyb290XCIsXCJnZW5kZXJcIjoyLFwidXNlcl9pZFwiOlwiZm1fc3lzdGVtX3VzZXJfcm9vdFwiLFwidXNlcl9uYW1lXCI6XCJyb290XCIsXCJ1c2VyX29yaWdpbl9pZFwiOlwiZm1fbG9jYWxcIixcInByb2R1Y3RfaWRcIjpcIlwiLFwiZXhwaXJlX3RpbWVcIjpcIlwiLFwic291cmNlX2lkXCI6XCJcIixcInR5cGVcIjpcIlwiLFwiY29ycF9pZFwiOlwiZm1fc3lzdGVtX2NvcnBcIn0iLCJleHAiOjQwOTI1OTkzNDksImp0aSI6ImFfNjhmZjBhZGY5OTcxNDQ0NThjNzViZWFiN2FjNTkzYWYifQ.W122WkT6QR4HZWbpalkpmirV9JWkDYcCkmNZoxCB_z8";
-
     this.map = new smartmapx.Map({
       container: "map",
       center: [122, 29.77462],
@@ -342,55 +342,14 @@ export class HomePage implements OnInit, OnDestroy {
       }
     });
     this.html = html;
-    /*    this.map.fitBounds(this.turf.bbox(routeLeg.geometry), {
+   /*      this.map.fitBounds(this.turf.bbox(routeLeg.geometry), {
      padding: {
        top: 30,
        bottom: 20,
        left: 20,
        right: 20,
      },
-   });
-    let html = "<h2>导航引导信息</h2>";
-    html +=
-      "<h2>" +
-     distanceDesc2(routeLeg.distance) +
-      "&nbsp;&nbsp;" +
-      durationDesc(routeLeg.duration) +
-      "</h2>" +
-      "<table>";
-    routeLeg.steps.forEach((step) => {
-      if (step.maneuver.type === "depart") {
-        html +=
-          '<tr><td style="color: blue">起</td><td>向' +
-          directionDesc(step.maneuver.bearing_after) +
-          "出发</td><td>沿" +
-          getRoadName(step.name) +
-          "</td><td>行驶" +
-          distanceDesc2(step.distance) +
-          "</td></tr>";
-      } else if (step.maneuver.type === "arrive") {
-        html +=
-          '<tr><td style="color: red">终</td><td>到达目的地附近</td><td></td><td>目的地在您' +
-          arriveTurnDesc(step.maneuver.modifier) +
-          "</td></tr>";
-      } else {
-        html +=
-          '<tr><td><span class="' +
-          turnToIcon(step.maneuver.modifier) +
-          '"></span></td><td>' +
-          turnDesc(step.maneuver.modifier) +
-          "</td><td>" +
-          driveRoadPretText(step) +
-          getRoadName(step.name) +
-          "</td><td>行驶" +
-          distanceDesc2(step.distance) +
-          "</td></tr>";
-      }
-    });
-    html += "</table>";
-    //console.log(html);
-    $("#notice").html(html);
- */
+   }); */
   }
 
   voicePlayer = new smartnavx.HtmlVoicePlayer();
