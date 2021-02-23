@@ -68,6 +68,7 @@ export class LoginPage implements OnInit, OnDestroy {
      this.socketService.user.rdtId = value || 'T01'; */
   }
   init() {
+   
     this.socketService
       .createObservableSocket("ws://121.40.165.18:8800")
       .subscribe(
@@ -114,7 +115,7 @@ export class LoginPage implements OnInit, OnDestroy {
       return;
     }
     this.sendMessage(this.userID);
-    //this.nav.navigateRoot("/tasklist");
+    this.nav.navigateRoot("/tasklist");
 
     /*  this.timer = setTimeout(() => {
       this.operating = false;

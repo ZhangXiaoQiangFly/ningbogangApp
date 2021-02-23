@@ -125,6 +125,23 @@ export class HomePage implements OnInit, OnDestroy {
           pixelRatio: 2,
         });
       });
+     /*  this.map.addControl(
+        new smartmapx.GeolocateControl({
+          positionOptions: {
+            enableHighAccuracy: true,
+          },
+          trackUserLocation: true,
+        })
+      ,"bottom-left"); */
+       var el = document.createElement("div");
+       el.className = "marker";
+       el.style.backgroundImage = "url(../assets/image/arrow.png)";
+       el.style.backgroundSize = "20px 20px";
+       el.style.width = "20px";
+       el.style.height = "20px";
+       this.runMarker = new smartmapx.Marker(el)
+         .setLngLat([122.002555, 29.767972])
+         .addTo(this.map);
 
       var roadGeoJSONUrl = "../../assets/road.geojson";
 
